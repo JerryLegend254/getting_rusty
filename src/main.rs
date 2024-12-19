@@ -67,9 +67,9 @@ fn string_to_pig_latin(s: &str) -> String {
         let mut chars = word.chars();
         let first_char = chars.next().unwrap();
         if vowels.contains(&first_char) {
-            result.push_str(&format!("{}-hay ", word));
+            result.push_str(&format!("{}-hay", word));
         } else {
-            result.push_str(&format!("{}-{}ay ", chars.collect::<String>(), first_char));
+            result.push_str(&format!("{}-{}ay", chars.collect::<String>(), first_char));
         }
     }
     result
@@ -105,4 +105,54 @@ impl Company {
         }
         employees
     }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_string_to_pig_latin() {
+        for tt in set_up_stpl() {
+            assert_eq!(
+                tt.pl,
+                string_to_pig_latin(&tt.s),
+                "Test with title {} failed. Wanted {}, but got {}",
+                tt.title,
+                tt.pl,
+                string_to_pig_latin(&tt.s)
+            )
+        }
+    }
+}
+
+pub struct StPL {
+    pub title: String,
+    pub s: String,
+    pub pl: String,
+}
+
+pub fn set_up_stpl() -> Vec<StPL> {
+    vec![
+        StPL {
+            title: "starts with vowel o".to_string(),
+            s: "orange".to_string(),
+            pl: "orange-hay".to_string(),
+        },
+        StPL {
+            title: "starts with vowel e".to_string(),
+            s: "egg".to_string(),
+            pl: "egg-hay".to_string(),
+        },
+        StPL {
+            title: "starts with consonant b".to_string(),
+            s: "banana".to_string(),
+            pl: "anana-bay".to_string(),
+        },
+        StPL {
+            title: "starts with consonant z".to_string(),
+            s: "zebra".to_string(),
+            pl: "ebra-zay".to_string(),
+        },
+    ]
 }
